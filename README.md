@@ -35,3 +35,9 @@
   * FM radio
   * Mobile sending audio single to Bluetooth speaker.
 
+
+## Channels & Flows
+
+* Kotlin has asynchronous stream support using `Channels` and `Flows`.
+* Channels(Send & Receive) - Channels are hot means producer will constantly produce the data wither there is any consumer or not.  
+* Flow(Emit & Collect) - Flows are mostly Cold means until there is one consumer producer will not start.
