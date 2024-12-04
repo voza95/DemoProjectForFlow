@@ -38,68 +38,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             DemoProjectForFlowTheme {
                 LaunchedEffect(key1 = Unit) {
-                    var demo = CoroutineScope(Dispatchers.IO).async {
-                        ""
-                    }
-//                    simpleFlowCaller()
-//                    flowOfUserList.collect { user ->
-//                        Log.d("User Flow", user)
-//                    }
-//                    CoroutineScope(Dispatchers.IO).launch {
-//                        launch {
-//                            flowOfUserList.collect { user ->
-//                                Log.d("User Flow", user)
-//                            }
-//                        }
-//                        launch {
-//                            userList.asFlow().collect { user ->
-//                                Log.d("User Flow", user)
-//                            }
-//                        }
-//                        withTimeoutOrNull(2000) {
-//                            flowOfUserList.collect { user ->
-//                                Log.d("User Cancelled Flow", user)
-//                            }
-//                        }
-//                    }
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        simpleFlow()
-                            .filter { user ->
-                                user == "user3"
-                            }
-                            .map { user ->
-                                "Mr. ${user.uppercase()}"
-                            }.collect { user ->
-                            Log.d("user", user)
-                        }
-                    }
-                }
-            }
-        }
-    }
 
-    fun simpleFlowCaller() {
-        CoroutineScope(Dispatchers.IO).launch {
-            simpleFlow().collect { user ->
-                Log.d("user", user)
-            }
-            launch {
-                simpleFlow().collect { user ->
-                    Log.d("user", "flow1 $user")
                 }
             }
-            launch {
-                simpleFlow().collect { user ->
-                    Log.d("user", "flow2 $user")
-                }
-            }
-        }
-    }
-
-    private fun simpleFlow(): Flow<String> = flow {
-        userList.forEach { user ->
-            delay(1000)
-            emit(user)
         }
     }
 }
