@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +34,8 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -52,7 +55,15 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(key1 = currentProducedInt) {
                     GlobalScope.launch {
                         val data = producer()
-                        data.collect {
+                        data
+                            .onStart {
+                                delay(2000L)
+                                Log.d("TAG", "onCreate: Starting out")
+                            }
+                            .onCompletion {
+                                Log.d("TAG", "onCreate: Completed")
+                            }
+                            .collect {
                             Log.d("TAG", "onCreate: $it")
                             currentProducedInt.value = it
                         }
@@ -63,7 +74,11 @@ class MainActivity : ComponentActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text("Current value is ${currentProducedInt.value}")
+                    if (currentProducedInt.value == 0) {
+                        CircularProgressIndicator()
+                    } else {
+                        Text("Current value is ${currentProducedInt.value}")
+                    }
                 }
             }
         }
