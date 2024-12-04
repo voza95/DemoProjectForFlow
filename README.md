@@ -4,7 +4,6 @@
 * `Coroutines` helps to implement asynchronous, non blocking code. 
 * To implement this we use `Suspend function`.
 * Either you fire and forget using `launch` or wait for data(i.e. single object) using `async`.
-
 > launch
 ```
     suspend fun deleteUser() {
@@ -26,3 +25,13 @@
         return user.await()
     }
 ```
+* Suspend function only return a single object.
+* Suspend function work great for things like:
+  * Storing some value in database
+  * Network calls
+  * Doing task that return single value.
+* But there are scenarios where you have stream of data:
+  * Video streaming
+  * FM radio
+  * Mobile sending audio single to Bluetooth speaker.
+
